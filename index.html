@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Bảng điều hành Vận hành HIMLAMIS</title>
+<meta name="description" content="Ứng dụng nội bộ Phòng Vận hành – Trường Quốc tế Him Lam Bắc Ninh">
+<meta name="theme-color" content="#14213d">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Vận hành HL">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<script src="config.js"></script>
+<style>
+:root{--brand:#14213d;--accent:#e07a2f;--fg:#15213a;--fg2:#4a5568;--fg3:#7c869a;--line:#e1e5ec;--ok:#0a6b0a;
+  --sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{font-family:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--fg);background:var(--brand);-webkit-text-size-adjust:100%}
+.screen{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;padding:calc(var(--sat) + 24px) 24px calc(var(--sab) + 24px);
+  background:radial-gradient(1200px 600px at 10% -10%,#27406f 0%,var(--brand) 45%,#0d1529 100%);color:#fff;text-align:center;overflow:auto}
+.screen.show{display:flex}
+.logo{width:88px;height:88px;border-radius:22px;background:#fff;display:grid;place-items:center;box-shadow:0 12px 36px rgba(0,0,0,.35);margin-bottom:18px;overflow:hidden}
+.logo img{width:100%;height:100%;object-fit:contain}
+h1{font-size:20px;margin:0 0 4px;font-weight:700}
+.sub{font-size:13px;opacity:.75;margin-bottom:22px}
+.spin{width:28px;height:28px;border:3px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:r 1s linear infinite;margin:8px auto}
+@keyframes r{to{transform:rotate(360deg)}}
+.card{width:100%;max-width:440px;background:#fff;color:var(--fg);border-radius:18px;padding:20px 22px;text-align:left;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.card h2{font-size:16px;margin:0 0 8px}
+.card p{font-size:14px;line-height:1.55;color:var(--fg2);margin:0 0 10px}
+.card ol{padding-left:20px;margin:0 0 12px;font-size:14px;line-height:1.6;color:var(--fg2)}
+.card li b{color:var(--fg)}
+.tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px 16px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--fg);font:inherit;font-weight:600;font-size:15px;text-decoration:none;cursor:pointer;margin-top:8px}
+.btn.pri{background:var(--brand);color:#fff;border-color:var(--brand)}
+.btn.acc{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn:active{transform:translateY(1px)}
+.help{font-size:12.5px;color:var(--fg3);border-top:1px solid var(--line);padding-top:10px;margin-top:12px;line-height:1.55}
+.help a{color:#1c4f8c;text-decoration:none}
+.ft{color:rgba(255,255,255,.55);font-size:12px;margin-top:18px}
+.gear{position:fixed;top:calc(var(--sat) + 10px);right:12px;width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;font-size:20px;display:grid;place-items:center;cursor:pointer}
+/* Chế độ khung */
+#frameWrap{position:fixed;inset:0;display:none;background:var(--brand);padding-top:var(--sat)}
+#frameWrap.show{display:block}
+#app{width:100%;height:100%;border:0;background:#fff;display:block}
+#bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:10px 14px calc(var(--sab) + 10px);display:none;gap:8px;align-items:center;flex-wrap:wrap;box-shadow:0 -8px 24px rgba(0,0,0,.18);font-size:13px;color:var(--fg2)}
+#bar.show{display:flex}
+#bar .btn{width:auto;margin:0;padding:9px 12px;font-size:13px}
+#bar .x{margin-left:auto;background:none;border:0;font-size:18px;color:var(--fg3);cursor:pointer}
+.pill{display:inline-block;padding:3px 8px;border-radius:999px;background:#eef2f7;font-size:12px;color:var(--fg2);margin-right:6px}
+.row{display:flex;gap:8px;margin-top:8px}
+.row .btn{margin:0}
+.note{background:#fbe9dc;color:#8a4a16;border-radius:10px;padding:9px 12px;font-size:13px;margin-bottom:10px}
+code.lnk{display:block;font-size:11px;word-break:break-all;background:#f3f5f9;padding:8px;border-radius:8px;color:var(--fg2);margin:6px 0 10px}
+</style>
+</head>
+<body>
+
+<!-- 1. Màn hình khởi động -->
+<div class="screen show" id="sSplash">
+  <div class="logo"><img src="icon-192.png" alt=""></div>
+  <h1>Bảng điều hành Vận hành</h1>
+  <div class="sub">Trường Quốc tế Him Lam Bắc Ninh</div>
+  <div class="spin"></div>
+  <div class="ft" id="splashMsg">Đang mở…</div>
+  <button class="gear" onclick="openSettings()" title="Cài đặt">⚙</button>
+</div>
+
+<!-- 2. Hướng dẫn cài (khi mở bằng trình duyệt, chưa thêm vào màn hình chính) -->
+<div class="screen" id="sGuide">
+  <div class="logo"><img src="icon-192.png" alt=""></div>
+  <h1>Bảng điều hành Vận hành</h1>
+  <div class="sub">Ứng dụng nội bộ · Phòng Vận hành HIMLAMIS</div>
+  <div class="card">
+    <span class="tag">Cài ứng dụng lên điện thoại</span>
+    <div id="gIos" style="display:none">
+      <p>Trên <b>iPhone / iPad</b> (mở bằng <b>Safari</b>):</p>
+      <ol>
+        <li>Bấm nút <b>Chia sẻ</b> <span class="pill">⎙ ở thanh dưới</span></li>
+        <li>Kéo xuống, chọn <b>Thêm vào MH chính</b> (Add to Home Screen)</li>
+        <li>Bấm <b>Thêm</b>. Biểu tượng <b>Vận hành HL</b> xuất hiện ngoài màn hình</li>
+      </ol>
+      <div class="note" id="iosNotSafari" style="display:none">Bạn đang mở bằng trình duyệt khác Safari. Hãy chép link này và mở trong <b>Safari</b> để cài được ứng dụng.</div>
+    </div>
+    <div id="gAndroid" style="display:none">
+      <p>Trên <b>Android</b> (mở bằng <b>Chrome</b>):</p>
+      <ol>
+        <li>Bấm nút <b>Cài ứng dụng</b> bên dưới (nếu có), hoặc</li>
+        <li>Bấm <b>⋮</b> góc trên phải → <b>Thêm vào Màn hình chính</b> / <b>Cài đặt ứng dụng</b></li>
+      </ol>
+      <button class="btn acc" id="btnInstall" style="display:none" onclick="doInstall()">⬇ Cài ứng dụng</button>
+    </div>
+    <div id="gDesktop" style="display:none">
+      <p>Trên máy tính: dùng link Bảng điều hành như bình thường. Trang này dành cho điện thoại.</p>
+    </div>
+    <button class="btn pri" onclick="go()">Mở Bảng điều hành ngay</button>
+    <button class="btn" onclick="copyLink()">Chép link gửi đồng nghiệp</button>
+    <div class="help">Chỉ dùng tài khoản trường <b>@himlamis.edu.vn</b>. Hỗ trợ: <a id="supA" href="#"></a> · <a href="#" onclick="openSettings();return false">Cài đặt</a></div>
+  </div>
+  <div class="ft">Phòng Vận hành HIMLAMIS · Hệ thống nội bộ</div>
+</div>
+
+<!-- 3. Mất mạng -->
+<div class="screen" id="sOffline">
+  <div class="logo"><img src="icon-192.png" alt=""></div>
+  <h1>Không có kết nối mạng</h1>
+  <div class="sub">Bảng điều hành cần Internet để lấy dữ liệu từ Google.</div>
+  <div class="card"><p>Kiểm tra Wi‑Fi hoặc 4G rồi bấm thử lại.</p><button class="btn pri" onclick="location.reload()">Thử lại</button></div>
+</div>
+
+<!-- 4. Cài đặt -->
+<div class="screen" id="sSettings">
+  <div class="card">
+    <span class="tag">Cài đặt ứng dụng</span>
+    <p>Cách mở Bảng điều hành trên thiết bị này:</p>
+    <button class="btn" id="mFrame" onclick="setMode('frame')">Nhúng trong khung (Android, máy tính)</button>
+    <button class="btn" id="mOpen" onclick="setMode('open')">Mở trực tiếp (iPhone / iPad)</button>
+    <button class="btn" id="mAuto" onclick="setMode('auto')">Tự động theo thiết bị</button>
+    <p style="margin-top:12px">Link ứng dụng:</p>
+    <code class="lnk" id="cfgUrl"></code>
+    <div class="row"><button class="btn" onclick="copyLink()">Chép link</button><button class="btn pri" onclick="go()">Mở ngay</button></div>
+    <div class="help">Phiên bản vỏ: <span id="ver"></span> · <a href="#" onclick="clearCache();return false">Xóa đệm &amp; tải lại</a></div>
+  </div>
+</div>
+
+<!-- 5. Chế độ khung -->
+<div id="frameWrap"><iframe id="app" title="Bảng điều hành Vận hành" allow="clipboard-write; camera; microphone; geolocation"></iframe></div>
+<div id="bar">
+  <span>Chưa thấy ứng dụng hiện ra?</span>
+  <button class="btn pri" onclick="loginThenBack()">Đăng nhập tài khoản trường</button>
+  <button class="btn" onclick="openDirect()">Mở trực tiếp</button>
+  <button class="x" onclick="hideBar(true)" title="Ẩn">✕</button>
+</div>
+
+<script>
+(function(){
+  var C = window.HLIS_CONFIG || {};
+  var ua = navigator.userAgent || '';
+  var isIOS = /iPhone|iPad|iPod/.test(ua) || (/Mac/.test(ua) && navigator.maxTouchPoints > 1);
+  var isAndroid = /Android/.test(ua);
+  var isSafari = isIOS && /Safari/.test(ua) && !/CriOS|FxiOS|EdgiOS|OPiOS|Chrome/.test(ua);
+  var standalone = window.navigator.standalone === true || (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || /source=pwa/.test(location.search);
+  var S = {};
+  try { S = JSON.parse(localStorage.getItem('hlis') || '{}'); } catch (e) {}
+  function save(){ try { localStorage.setItem('hlis', JSON.stringify(S)); } catch (e) {} }
+  function show(id){ document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('show'); }); document.getElementById('frameWrap').classList.remove('show'); if (id) document.getElementById(id).classList.add('show'); }
+  function mode(){ var m = S.mode || C.mode || 'auto'; if (m !== 'auto') return m; return isIOS ? 'open' : 'frame'; }
+  var shellUrl = location.origin + location.pathname.replace(/[^\/]*$/, '') + 'index.html?source=pwa';
+
+  document.getElementById('cfgUrl').textContent = C.appUrl || '(chưa cấu hình appUrl trong config.js)';
+  document.getElementById('ver').textContent = C.version || '';
+  var sa = document.getElementById('supA'); sa.textContent = C.support || ''; sa.href = 'mailto:' + (C.support || '');
+
+  // ---------- Hành động ----------
+  window.go = function(){ if (!C.appUrl) { alert('Chưa cấu hình link ứng dụng (config.js).'); return; } if (mode() === 'frame' && standalone) openFrame(); else openDirect(); };
+  window.openDirect = function(){ location.href = C.appUrl; };
+  window.loginThenBack = function(){
+    location.href = 'https://accounts.google.com/AccountChooser?continue=' + encodeURIComponent(shellUrl) + '&hd=' + encodeURIComponent(C.domain || '');
+  };
+  window.openSettings = function(){ clearTimeout(window.__auto); ['frame','open','auto'].forEach(function(m){ var b = document.getElementById('m' + m.charAt(0).toUpperCase() + m.slice(1)); b.className = 'btn' + ((S.mode || 'auto') === m ? ' pri' : ''); }); show('sSettings'); };
+  window.setMode = function(m){ S.mode = m; save(); openSettings(); };
+  window.copyLink = function(){ var u = location.origin + location.pathname; (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(function(){ alert('Đã chép link:\n' + u); }, function(){ prompt('Chép link này:', u); }); };
+  window.clearCache = function(){ if (window.caches) caches.keys().then(function(ks){ return Promise.all(ks.map(function(k){ return caches.delete(k); })); }).then(function(){ location.reload(); }); else location.reload(); };
+  window.hideBar = function(remember){ document.getElementById('bar').classList.remove('show'); if (remember) { S.barHiddenUntil = Date.now() + 7*864e5; save(); } };
+
+  // ---------- Chế độ khung ----------
+  var ready = false;
+  window.addEventListener('message', function(ev){ if (ev.data === 'hlis-ready' || (ev.data && ev.data.type === 'hlis-ready')) { ready = true; hideBar(false); } });
+  function openFrame(){
+    show(null); document.getElementById('frameWrap').classList.add('show');
+    var f = document.getElementById('app'); if (!f.src) f.src = C.appUrl;
+    setTimeout(function(){ if (!ready && !(S.barHiddenUntil > Date.now())) document.getElementById('bar').classList.add('show'); }, C.readyTimeout || 7000);
+  }
+
+  // ---------- Cài đặt (Android) ----------
+  var deferred = null;
+  window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferred = e; var b = document.getElementById('btnInstall'); if (b) b.style.display = 'flex'; });
+  window.doInstall = function(){ if (!deferred) return; deferred.prompt(); deferred.userChoice.then(function(){ deferred = null; }); };
+  window.addEventListener('appinstalled', function(){ document.getElementById('splashMsg').textContent = 'Đã cài. Mở từ màn hình chính.'; });
+
+  // ---------- Service worker ----------
+  if ('serviceWorker' in navigator && location.protocol === 'https:') { navigator.serviceWorker.register('sw.js').catch(function(){}); }
+
+  // ---------- Điều hướng ----------
+  if (!navigator.onLine) { show('sOffline'); window.addEventListener('online', function(){ location.reload(); }); return; }
+  if (/settings=1/.test(location.search)) { openSettings(); return; }
+  if (!standalone) {
+    document.getElementById(isIOS ? 'gIos' : isAndroid ? 'gAndroid' : 'gDesktop').style.display = 'block';
+    if (isIOS && !isSafari) document.getElementById('iosNotSafari').style.display = 'block';
+    show('sGuide'); return;
+  }
+  // Đang chạy như app: chờ 1,2 giây (để kịp bấm ⚙ nếu cần) rồi mở
+  window.__auto = setTimeout(function(){ if (mode() === 'frame') openFrame(); else { document.getElementById('splashMsg').textContent = 'Đang mở Bảng điều hành…'; openDirect(); } }, 1200);
+})();
+</script>
+</body>
+</html>
