@@ -11,5 +11,5 @@ window.HLIS_CONFIG = {
   // Chế độ mặc định theo thiết bị: 'auto' | 'frame' (nhúng trong khung) | 'open' (mở trực tiếp)
   mode: 'auto',
   // Phiên bản vỏ ứng dụng — tăng số này mỗi lần sửa file để điện thoại tự cập nhật
-  version: '2026.11.03'
+  version: '2026.11.04'
 };

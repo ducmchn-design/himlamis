@@ -1,5 +1,5 @@
 /* Service Worker — chỉ lưu đệm "vỏ" ứng dụng (các tệp cùng tên miền). Không chạm tới dữ liệu Google. */
-const VERSION = 'hlis-shell-v1';
+const VERSION = 'hlis-shell-v2';
 const SHELL = ['./', './index.html', './config.js', './manifest.webmanifest',
   './icon-192.png', './icon-512.png', './apple-touch-icon.png', './favicon.png'];
 
