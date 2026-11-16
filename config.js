@@ -9,7 +9,7 @@ window.HLIS_CONFIG = {
   // Thời gian chờ (ms) trước khi hiện nút "Đăng nhập" nếu khung ứng dụng không báo đã sẵn sàng
   readyTimeout: 7000,
   // Chế độ mặc định theo thiết bị: 'auto' | 'frame' (nhúng trong khung) | 'open' (mở trực tiếp)
-  mode: 'auto',
+  mode: 'open',
   // Phiên bản vỏ ứng dụng — tăng số này mỗi lần sửa file để điện thoại tự cập nhật
-  version: '2026.11.04'
+  version: '2026.11.16'
 };

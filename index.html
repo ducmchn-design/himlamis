@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Bảng điều hành Vận hành HIMLAMIS</title>
 <meta name="description" content="Ứng dụng nội bộ Phòng Vận hành – Trường Quốc tế Him Lam Bắc Ninh">
-<meta name="theme-color" content="#14213d">
+<meta name="theme-color" content="#05507e">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -14,8 +14,11 @@
 <link rel="icon" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <script src="config.js"></script>
+<script>/* Mở trực tiếp: chuyển ngay sang Bảng điều hành, không hiện hiệu ứng ở vỏ (hiệu ứng chạy trong Bảng điều hành) */
+try{var _C=window.HLIS_CONFIG||{},_S=JSON.parse(localStorage.getItem('hlis')||'{}'),_m=_S.mode||_C.mode||'auto',_sa=navigator.standalone===true||(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||/source=pwa/.test(location.search);
+if(_sa&&!/settings=1/.test(location.search)&&(_m==='open'||(_m==='auto'&&/iPhone|iPad|iPod/.test(navigator.userAgent)))){document.documentElement.classList.add('hl-open');}}catch(e){}</script>
 <style>
-:root{--brand:#14213d;--accent:#e07a2f;--fg:#15213a;--fg2:#4a5568;--fg3:#7c869a;--line:#e1e5ec;--ok:#0a6b0a;
+:root{--brand:#05507e;--accent:#e07a2f;--fg:#15213a;--fg2:#4a5568;--fg3:#7c869a;--line:#e1e5ec;--ok:#0a6b0a;
   --sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px)}
 *{box-sizing:border-box}
 html,body{height:100%;margin:0}
@@ -57,17 +60,64 @@ h1{font-size:20px;margin:0 0 4px;font-weight:700}
 .note{background:#fbe9dc;color:#8a4a16;border-radius:10px;padding:9px 12px;font-size:13px;margin-bottom:10px}
 code.lnk{display:block;font-size:11px;word-break:break-all;background:#f3f5f9;padding:8px;border-radius:8px;color:var(--fg2);margin:6px 0 10px}
 </style>
+<style id="hl-splash-css">
+/* Màn hình mở app – cùng thiết kế với Bảng điều hành (16/11/2026). Vỏ app điều khiển thời điểm tắt. */
+#hl-splash{position:fixed;inset:0;z-index:2147483000;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;
+  background:radial-gradient(120% 80% at 50% 38%,#0a74b3 0%,#076aa7 30%,#05507e 70%,#043d61 100%);color:#fff;
+  font-family:Montserrat,"Be Vietnam Pro",system-ui,sans-serif;-webkit-tap-highlight-color:transparent;cursor:pointer;
+  animation:hls-out .7s ease 4.3s forwards}
+#hl-splash .hls-glow{position:absolute;width:520px;height:520px;left:50%;top:38%;margin:-260px 0 0 -260px;border-radius:50%;
+  background:radial-gradient(circle,rgba(234,175,79,.30) 0,rgba(237,121,32,.10) 35%,transparent 65%);animation:hls-pulse 2.6s ease-in-out infinite}
+#hl-splash .hls-mark{position:relative;width:200px;height:200px;margin-top:-6vh}
+#hl-splash .hls-ray{position:absolute;left:50%;top:50%;width:22px;height:58px;margin:-29px 0 0 -11px;border-radius:999px;opacity:0;
+  transform:rotate(var(--a)) translateY(-40px) scale(.3);animation:hls-ray 1s cubic-bezier(.2,.9,.3,1.3) forwards;animation-delay:var(--d)}
+#hl-splash .hls-ring{position:absolute;inset:0;animation:hls-spin 9s linear .9s infinite}
+#hl-splash .hls-logo{position:absolute;left:50%;top:50%;width:104px;height:104px;margin:-52px 0 0 -52px;border-radius:26px;background:#fff;
+  box-shadow:0 14px 40px rgba(0,0,0,.28),0 0 0 6px rgba(255,255,255,.12);display:grid;place-items:center;
+  transform:scale(.2) rotate(-25deg);opacity:0;animation:hls-pop .9s cubic-bezier(.2,.9,.25,1.35) .15s forwards}
+#hl-splash .hls-logo img{width:78px;height:78px;object-fit:contain}
+#hl-splash .hls-name{margin-top:26px;font-size:24px;font-weight:700;letter-spacing:.01em;opacity:0;transform:translateY(16px);animation:hls-up .7s ease .75s forwards}
+#hl-splash .hls-sub{margin-top:6px;font-family:"Be Vietnam Pro",system-ui,sans-serif;font-size:13px;font-weight:500;color:rgba(255,255,255,.78);opacity:0;animation:hls-fade .7s ease 1s forwards}
+#hl-splash .hls-slo{position:relative;height:44px;width:100%;margin-top:26px}
+#hl-splash .hls-slo span{position:absolute;left:0;right:0;text-align:center;font-size:20px;font-weight:700;opacity:0;white-space:nowrap}
+#hl-splash .hls-s1{color:#fff;animation:hls-fly1 2s cubic-bezier(.2,.8,.2,1) 1.25s forwards}
+#hl-splash .hls-s2{color:#eaaf4f;animation:hls-fly2 1.6s cubic-bezier(.2,.8,.2,1) 2.85s forwards}
+#hl-splash .hls-bar{position:absolute;left:50%;bottom:calc(46px + env(safe-area-inset-bottom));width:120px;height:4px;margin-left:-60px;border-radius:4px;background:rgba(255,255,255,.18);overflow:hidden}
+#hl-splash .hls-bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#eaaf4f,#ed7920);transform-origin:left;transform:scaleX(0);animation:hls-bar 4.6s linear forwards}
+#hl-splash .hls-skip{position:absolute;bottom:calc(18px + env(safe-area-inset-bottom));font-family:"Be Vietnam Pro",system-ui,sans-serif;font-size:12px;color:rgba(255,255,255,.6)}
+@keyframes hls-pop{60%{opacity:1;transform:scale(1.08) rotate(4deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
+@keyframes hls-ray{0%{opacity:0;transform:rotate(var(--a)) translateY(-20px) scale(.3)}100%{opacity:1;transform:rotate(var(--a)) translateY(-78px) scale(1)}}
+@keyframes hls-spin{to{transform:rotate(360deg)}}
+@keyframes hls-pulse{0%,100%{transform:scale(.92);opacity:.8}50%{transform:scale(1.06);opacity:1}}
+@keyframes hls-up{to{opacity:1;transform:none}}
+@keyframes hls-fade{to{opacity:1}}
+@keyframes hls-fly1{0%{opacity:0;transform:translateX(-70vw) skewX(-12deg)}22%{opacity:1;transform:translateX(0) skewX(0)}78%{opacity:1;transform:translateX(0)}100%{opacity:0;transform:translateY(-34px) scale(.92)}}
+@keyframes hls-fly2{0%{opacity:0;transform:translateX(70vw) skewX(12deg)}28%{opacity:1;transform:translateX(0) skewX(0)}100%{opacity:1;transform:none}}
+@keyframes hls-bar{to{transform:scaleX(1)}}
+@keyframes hls-out{to{opacity:0;transform:scale(1.06);visibility:hidden}}
+#hl-splash.hls-skip-now{animation:hls-out .35s ease forwards}
+@media (prefers-reduced-motion:reduce){#hl-splash,#hl-splash *{animation-duration:.01s!important;animation-delay:0s!important}#hl-splash{animation:hls-out .4s ease 1.6s forwards!important}#hl-splash .hls-s1{display:none}}
+#hl-splash{animation:none}
+#hl-splash.hls-done{animation:hls-out .6s ease forwards}
+#hl-splash .hls-gear{position:absolute;top:calc(env(safe-area-inset-top,0px) + 10px);right:12px;width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.10);color:rgba(255,255,255,.75);font-size:19px;display:grid;place-items:center;cursor:pointer;z-index:2}
+html.hl-open #hl-splash{display:none}
+</style>
+
 </head>
 <body>
 
-<!-- 1. Màn hình khởi động -->
-<div class="screen show" id="sSplash">
-  <div class="logo"><img src="icon-192.png" alt=""></div>
-  <h1>Bảng điều hành Vận hành</h1>
-  <div class="sub">Trường Quốc tế Him Lam Bắc Ninh</div>
-  <div class="spin"></div>
-  <div class="ft" id="splashMsg">Đang mở…</div>
-  <button class="gear" onclick="openSettings()" title="Cài đặt">⚙</button>
+<!-- 1. Màn hình mở app: hiệu ứng logo + khẩu hiệu (duy nhất). Bảng điều hành tải ngầm phía sau. -->
+<div id="hl-splash" role="presentation">
+  <div class="hls-glow"></div>
+  <div class="hls-mark"><div class="hls-ring">
+    <i class="hls-ray" style="--a:0deg;--d:.35s;background:#ed7920"></i><i class="hls-ray" style="--a:60deg;--d:.42s;background:#eaaf4f"></i>
+    <i class="hls-ray" style="--a:120deg;--d:.49s;background:#ed7920"></i><i class="hls-ray" style="--a:180deg;--d:.56s;background:#06a3d8"></i>
+    <i class="hls-ray" style="--a:240deg;--d:.63s;background:#ffffff"></i><i class="hls-ray" style="--a:300deg;--d:.70s;background:#06a3d8"></i>
+  </div><div class="hls-logo"><img alt="" src="icon-192.png"></div></div>
+  <div class="hls-name">Vận hành HIMLAMIS</div><div class="hls-sub">Trường Quốc tế Him Lam Bắc Ninh</div>
+  <div class="hls-slo"><span class="hls-s1">An toàn mỗi ngày</span><span class="hls-s2">Yêu thương từng em</span></div>
+  <div class="hls-bar"><i></i></div><div class="hls-skip" id="splashMsg">Chạm để vào ngay</div>
+  <button class="hls-gear" onclick="event.stopPropagation();openSettings()" title="Cài đặt">⚙</button>
 </div>
 
 <!-- 2. Hướng dẫn cài (khi mở bằng trình duyệt, chưa thêm vào màn hình chính) -->
@@ -147,7 +197,7 @@ code.lnk{display:block;font-size:11px;word-break:break-all;background:#f3f5f9;pa
   var S = {};
   try { S = JSON.parse(localStorage.getItem('hlis') || '{}'); } catch (e) {}
   function save(){ try { localStorage.setItem('hlis', JSON.stringify(S)); } catch (e) {} }
-  function show(id){ document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('show'); }); document.getElementById('frameWrap').classList.remove('show'); if (id) document.getElementById(id).classList.add('show'); }
+  function show(id){ endSplash(true); document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('show'); }); document.getElementById('frameWrap').classList.remove('show'); if (id) document.getElementById(id).classList.add('show'); }
   function mode(){ var m = S.mode || C.mode || 'auto'; if (m !== 'auto') return m; return isIOS ? 'open' : 'frame'; }
   var shellUrl = location.origin + location.pathname.replace(/[^\/]*$/, '') + 'index.html?source=pwa';
 
@@ -155,9 +205,20 @@ code.lnk{display:block;font-size:11px;word-break:break-all;background:#f3f5f9;pa
   document.getElementById('ver').textContent = C.version || '';
   var sa = document.getElementById('supA'); sa.textContent = C.support || ''; sa.href = 'mailto:' + (C.support || '');
 
+  // ---------- Màn hình mở app ----------
+  var sp = document.getElementById('hl-splash'), t0 = Date.now(), MIN = 4800, MAX = 11000, spEnded = false;
+  function endSplash(now){
+    if (spEnded || !sp) return; spEnded = true;
+    if (now) { sp.parentNode && sp.parentNode.removeChild(sp); return; }
+    sp.classList.add('hls-done'); setTimeout(function(){ sp.parentNode && sp.parentNode.removeChild(sp); }, 650);
+  }
+  window.endSplash = endSplash;
+  function maybeEnd(){ var el = Date.now() - t0; if ((ready && el >= MIN) || el >= MAX) endSplash(false); }
+  if (sp) sp.addEventListener('click', function(){ endSplash(false); });
+
   // ---------- Hành động ----------
   window.go = function(){ if (!C.appUrl) { alert('Chưa cấu hình link ứng dụng (config.js).'); return; } if (mode() === 'frame' && standalone) openFrame(); else openDirect(); };
-  window.openDirect = function(){ location.href = C.appUrl; };
+  window.openDirect = function(){ document.documentElement.classList.add('hl-open'); location.href = C.appUrl; };
   window.loginThenBack = function(){
     location.href = 'https://accounts.google.com/AccountChooser?continue=' + encodeURIComponent(shellUrl) + '&hd=' + encodeURIComponent(C.domain || '');
   };
@@ -169,10 +230,10 @@ code.lnk{display:block;font-size:11px;word-break:break-all;background:#f3f5f9;pa
 
   // ---------- Chế độ khung ----------
   var ready = false;
-  window.addEventListener('message', function(ev){ if (ev.data === 'hlis-ready' || (ev.data && ev.data.type === 'hlis-ready')) { ready = true; hideBar(false); } });
+  window.addEventListener('message', function(ev){ if (ev.data === 'hlis-ready' || (ev.data && ev.data.type === 'hlis-ready')) { ready = true; hideBar(false); maybeEnd(); } });
   function openFrame(){
-    show(null); document.getElementById('frameWrap').classList.add('show');
-    var f = document.getElementById('app'); if (!f.src) f.src = C.appUrl;
+    document.querySelectorAll('.screen').forEach(function(x){ x.classList.remove('show'); }); document.getElementById('frameWrap').classList.add('show'); setInterval(maybeEnd, 250);
+    var f = document.getElementById('app'); if (!f.src) f.src = C.appUrl + (C.appUrl.indexOf('?') < 0 ? '?' : '&') + 'shell=2';
     setTimeout(function(){ if (!ready && !(S.barHiddenUntil > Date.now())) document.getElementById('bar').classList.add('show'); }, C.readyTimeout || 7000);
   }
 
@@ -193,8 +254,8 @@ code.lnk{display:block;font-size:11px;word-break:break-all;background:#f3f5f9;pa
     if (isIOS && !isSafari) document.getElementById('iosNotSafari').style.display = 'block';
     show('sGuide'); return;
   }
-  // Đang chạy như app: chờ 1,2 giây (để kịp bấm ⚙ nếu cần) rồi mở
-  window.__auto = setTimeout(function(){ if (mode() === 'frame') openFrame(); else { document.getElementById('splashMsg').textContent = 'Đang mở Bảng điều hành…'; openDirect(); } }, 1200);
+  // Đang chạy như app: mở ngay. Khung (Android): Bảng điều hành tải ngầm sau hiệu ứng. Mở trực tiếp (iPhone): chuyển trang ngay, hiệu ứng hiện bên trong Bảng điều hành.
+  if (mode() === 'frame') openFrame(); else openDirect();
 })();
 </script>
 </body>
